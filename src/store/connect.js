@@ -5,23 +5,14 @@ import PropTypes from 'prop-types';
 export const connect = (mapStateToProps, mapDispatchToProps) =>
   Component => {
     class WrappedComponent extends React.Component {
-      constructor(props, context) {
-        super(props, context);
-
-        const { dispatch } = this.context.store;
-
-        this.state = {
-          data: mapStateToProps(this.context.store.getState(), this.props),
-          actions: bindActionCreators(mapDispatchToProps, dispatch, this.props)
-        };
-      }
-      
       render() {
+        const { dispatch } = this.context.store;
+        
         return (
           <Component
             {...this.props}
-            {...this.state.data}
-            {...this.state.actions}
+            {...mapStateToProps(this.context.store.getState(), this.props)}
+            {...bindActionCreators(mapDispatchToProps, dispatch, this.props)}
           />
         )
       }
@@ -35,12 +26,7 @@ export const connect = (mapStateToProps, mapDispatchToProps) =>
       }
 
       handleChange = () => {
-        const { dispatch } = this.context.store;
-        
-        this.setState({
-          data: mapStateToProps(this.context.store.getState(), this.props),
-          action: bindActionCreators(mapDispatchToProps, dispatch, this.props)
-        });
+        this.forceUpdate();
       }
     }
 

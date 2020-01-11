@@ -35,9 +35,6 @@ const connect = (mapStateToProps, mapDispatchToProps) =>
         return (
           <Component
             {...this.props}
-            // Нет смысла обновлять пропсы, которые мы получаем из глобального стора,
-            // если, например, сам стор не менялся, а обновление вызвано изменением состояния
-            // вышестоящего компонента
             {...mapStateToProps(this.context.store.getState(), this.props)}
             {...mapDispatchToProps(this.context.store.dispatch, this.props)}
           />
